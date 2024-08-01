@@ -1,0 +1,31 @@
+#include <Wire.h>
+#include <Adafruit_PWMServoDriver.h>
+Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
+// Define the minimum and maximum pulse lengths
+#define SERVOMIN  150  // This is the 'minimum' pulse length count (out of 4096)
+#define SERVOMAX  600  // This is the 'maximum' pulse length count (out of 4096)
+// Function to convert angle to pulse length
+int angleToPulse(int angle) {
+  int pulse = map(angle, 0, 180, SERVOMIN, SERVOMAX);
+  return pulse;
+}
+void setup() {
+  Serial.begin(9600);
+  Serial.println("PCA9685 Servo Control");
+  pwm.begin();
+  pwm.setPWMFreq(60);  // Analog servos run at ~60 Hz updates
+  delay(10);
+}
+
+void loop() {
+  setServoAngle(0, 0);
+  delay(3000);
+  setServoAngle(0, 180);
+  delay(3000);
+}
+
+// Function to set the servo angle
+void setServoAngle(uint8_t channel, int angle) {
+  int pulseLength = angleToPulse(angle);
+  pwm.setPWM(channel, 0, pulseLength);
+}
