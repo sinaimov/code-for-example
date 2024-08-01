@@ -1,1 +1,33 @@
+#include <Adafruit_NeoPixel.h>
 
+#define PIN            2 // Pin to which the data line is connected
+#define NUMPIXELS      2 // Number of NeoPixels
+
+Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
+
+void setup() {
+  pixels.begin(); // Initialize the NeoPixel library
+  pixels.show();  // Initialize all pixels to 'off'
+}
+
+void loop() {
+  // Test each pixel with different colors
+  for(int i=0; i<NUMPIXELS; i++) {
+    pixels.setPixelColor(i, pixels.Color(255, 0, 0)); // Red
+    pixels.show();
+    delay(500);
+    pixels.setPixelColor(i, pixels.Color(0, 255, 0)); // Green
+    pixels.show();
+    delay(500);
+    pixels.setPixelColor(i, pixels.Color(0, 0, 255)); // Blue
+    pixels.show();
+    delay(500);
+  }
+  
+  // Turn off all pixels
+  for(int i=0; i<NUMPIXELS; i++) {
+    pixels.setPixelColor(i, 0); // Turn off
+  }
+  pixels.show();
+  delay(1000); // Wait for 1 second before the next cycle
+}
